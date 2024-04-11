@@ -1,0 +1,479 @@
+name: Check
+
+on:
+  push:
+    branches:
+      - "main"
+    paths:
+      - ".github/workflows/check.yml"
+  pull_request:
+    branches:
+      - "main"
+    paths:
+      - ".github/workflows/check.yml"
+  schedule:
+    - cron: "0 0 * * *"
+
+jobs:
+  check-gtk-mocha:
+    name: Check Catppuccin GTK Mocha
+    runs-on: ubuntu-latest
+    env:
+      FOLDER: catppuccin-gtk-theme-mocha
+    outputs:
+      diff: ${{ steps.diff.outputs.changed }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Update checksum
+        uses: heyhusen/archlinux-package-action@v2.2.1
+        with:
+          path: "${{ env.FOLDER }}"
+          namcap: false
+          updpkgsums: true
+          flags: ""
+
+      - name: Git diff
+        id: diff
+        run: |
+          if git diff --quiet ${{ env.FOLDER }}/PKGBUILD; then
+            echo "::set-output name=changed::false"
+          else
+            echo "::set-output name=changed::true"
+          fi
+
+  update-gtk-mocha:
+    name: Update GTK Mocha
+    runs-on: ubuntu-latest
+    needs: check-gtk-mocha
+    if: needs.check-gtk-mocha.outputs.diff == 'true'
+    env:
+      FOLDER: catppuccin-gtk-theme-mocha
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Get version
+        id: get-version
+        run: |
+          cd ${{ env.FOLDER }}
+          git clone https://github.com/catppuccin/gtk.git && cd gtk
+          echo "::set-output name=version::$(printf "r%s.%s" "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)")"
+          cd ../ && rm -rf gtk
+
+      - name: Update PKGBUILD
+        uses: heyhusen/archlinux-package-action@v2.2.1
+        with:
+          path: "${{ env.FOLDER }}"
+          pkgver: ${{ steps.get-version.outputs.version }}
+          pkgrel: 1
+          srcinfo: true
+          flags: ""
+
+      - name: Commit files
+        if: github.event_name != 'pull_request'
+        run: |
+          git config --local user.name "github-actions[bot]"
+          git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add ${{ env.FOLDER }}/PKGBUILD ${{ env.FOLDER }}/.SRCINFO
+          git commit -m "chore(gtk-catppuccin-mocha): bump to ${{ steps.get-version.outputs.version }}"
+
+      - name: Push changes
+        if: github.event_name != 'pull_request'
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Trigger CI workflow
+        if: github.event_name != 'pull_request'
+        uses: benc-uk/workflow-dispatch@master
+        with:
+          workflow: CI - Catppuccin GTK Mocha
+          token: ${{ secrets.PERSONAL_TOKEN }}
+          inputs: '{ "version": "${{ steps.get-version.outputs.version }}" }'
+
+  # check-docker-slim-bin:
+  #   name: Check docker-slim-bin
+  #   runs-on: ubuntu-latest
+  #   env:
+  #     FOLDER: docker-slim-bin
+  #   outputs:
+  #     found: ${{ steps.search-version.outputs.found }}
+  #     version: ${{ steps.get-version.outputs.version }}
+
+  #   steps:
+  #     - name: Checkout
+  #       uses: actions/checkout@v3
+
+  #     - name: Get upstream version
+  #       id: get-version
+  #       run: echo "::set-output name=version::$(curl -s GET https://api.github.com/repos/docker-slim/docker-slim/tags | jq -r '.[].name' | head -n1)"
+
+  #     - name: Find version on PKGBUILD
+  #       id: search-version
+  #       run: |
+  #         cd ${{ env.FOLDER }}
+  #         if grep -q "${{ steps.get-version.outputs.version }}" PKGBUILD
+  #         then
+  #           echo "::set-output name=found::true"
+  #         else
+  #           echo "::set-output name=found::false"
+  #         fi
+
+  # update-docker-slim-bin:
+  #   name: Update docker-slim-bin
+  #   needs: check-docker-slim-bin
+  #   if: needs.check-docker-slim-bin.outputs.found == 'false'
+  #   runs-on: ubuntu-latest
+  #   env:
+  #     FOLDER: docker-slim-bin
+
+  #   steps:
+  #     - name: Checkout
+  #       uses: actions/checkout@v3
+  #       with:
+  #         persist-credentials: false
+  #         fetch-depth: 0
+
+  #     - name: Update PKGBUILD
+  #       uses: heyhusen/archlinux-package-action@v2.2.1
+  #       with:
+  #         path: "${{ env.FOLDER }}"
+  #         pkgver: ${{ needs.check-docker-slim-bin.outputs.version }}
+  #         pkgrel: 1
+  #         namcap: false
+  #         updpkgsums: true
+  #         srcinfo: true
+  #         flags: ""
+
+  #     - name: Commit changes
+  #       if: github.event_name != 'pull_request'
+  #       run: |
+  #         git config --local user.name "github-actions[bot]"
+  #         git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
+  #         git add ${{ env.FOLDER }}/PKGBUILD ${{ env.FOLDER }}/.SRCINFO
+  #         git commit -m "chore(docker-slim-bin): bump to v${{ needs.check-docker-slim-bin.outputs.version }}"
+
+  #     - name: Push changes
+  #       if: github.event_name != 'pull_request'
+  #       uses: ad-m/github-push-action@master
+  #       with:
+  #         github_token: ${{ secrets.GITHUB_TOKEN }}
+
+  #     - name: Trigger CI workflow
+  #       if: github.event_name != 'pull_request'
+  #       uses: benc-uk/workflow-dispatch@master
+  #       with:
+  #         workflow: CI - docker-slim-bin
+  #         token: ${{ secrets.PERSONAL_TOKEN }}
+  #         inputs: '{ "version": "${{ needs.check-docker-slim-bin.outputs.version }}" }'
+
+  # check-code-minimap-bin:
+  #   name: Check code-minimap-bin
+  #   runs-on: ubuntu-latest
+  #   env:
+  #     FOLDER: code-minimap-bin
+  #   outputs:
+  #     found: ${{ steps.search-version.outputs.found }}
+  #     version: ${{ steps.get-version.outputs.version }}
+
+  #   steps:
+  #     - name: Checkout
+  #       uses: actions/checkout@v3
+
+  #     - name: Get upstream version
+  #       id: get-version
+  #       run: echo "::set-output name=version::$(curl --silent "https://api.github.com/repos/wfxr/code-minimap/releases/latest" | grep '"tag_name":' | sed -E 's/.*"([^"]+)".*/\1/' | cut -c 2-)"
+
+  #     - name: Find version on PKGBUILD
+  #       id: search-version
+  #       run: |
+  #         cd ${{ env.FOLDER }}
+  #         if grep -q "${{ steps.get-version.outputs.version }}" PKGBUILD
+  #         then
+  #           echo "::set-output name=found::true"
+  #         else
+  #           echo "::set-output name=found::false"
+  #         fi
+
+  # update-code-minimap-bin:
+  #   name: Update code-minimap-bin
+  #   needs: check-code-minimap-bin
+  #   if: needs.check-code-minimap-bin.outputs.found == 'false'
+  #   runs-on: ubuntu-latest
+  #   env:
+  #     FOLDER: code-minimap-bin
+
+  #   steps:
+  #     - name: Checkout
+  #       uses: actions/checkout@v3
+  #       with:
+  #         persist-credentials: false
+  #         fetch-depth: 0
+
+  #     - name: Update PKGBUILD
+  #       uses: heyhusen/archlinux-package-action@v2.2.1
+  #       with:
+  #         path: "${{ env.FOLDER }}"
+  #         pkgver: ${{ needs.check-code-minimap-bin.outputs.version }}
+  #         pkgrel: 1
+  #         namcap: false
+  #         updpkgsums: true
+  #         srcinfo: true
+  #         flags: ""
+
+  #     - name: Commit changes
+  #       if: github.event_name != 'pull_request'
+  #       run: |
+  #         git config --local user.name "github-actions[bot]"
+  #         git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
+  #         git add ${{ env.FOLDER }}/PKGBUILD ${{ env.FOLDER }}/.SRCINFO
+  #         git commit -m "chore(code-minimap-bin): bump to v${{ needs.check-code-minimap-bin.outputs.version }}"
+
+  #     - name: Push changes
+  #       if: github.event_name != 'pull_request'
+  #       uses: ad-m/github-push-action@master
+  #       with:
+  #         github_token: ${{ secrets.GITHUB_TOKEN }}
+
+  #     - name: Trigger CI workflow
+  #       if: github.event_name != 'pull_request'
+  #       uses: benc-uk/workflow-dispatch@master
+  #       with:
+  #         workflow: CI - code-minimap-bin
+  #         token: ${{ secrets.PERSONAL_TOKEN }}
+  #         inputs: '{ "version": "${{ needs.check-code-minimap-bin.outputs.version }}" }'
+
+  # check-ncspot-bin:
+  #   name: Check ncspot-bin
+  #   runs-on: ubuntu-latest
+  #   env:
+  #     FOLDER: ncspot-bin
+  #   outputs:
+  #     found: ${{ steps.search-version.outputs.found }}
+  #     version: ${{ steps.get-version.outputs.version }}
+
+  #   steps:
+  #     - name: Checkout
+  #       uses: actions/checkout@v3
+
+  #     - name: Get upstream version
+  #       id: get-version
+  #       run: echo "::set-output name=version::$(curl -s GET https://api.github.com/repos/hrkfdn/ncspot/tags | jq -r '.[].name' | head -n1 | cut -c 2-)"
+
+  #     - name: Find version on PKGBUILD
+  #       id: search-version
+  #       run: |
+  #         cd ${{ env.FOLDER }}
+  #         if grep -Fq "${{ steps.get-version.outputs.version }}" PKGBUILD
+  #         then
+  #           echo "::set-output name=found::true"
+  #         else
+  #           echo "::set-output name=found::false"
+  #         fi
+
+  # build-ncspot-bin:
+  #   name: Build ncspot
+  #   runs-on: ubuntu-latest
+  #   needs: check-ncspot-bin
+  #   if: needs.check-ncspot-bin.outputs.found == 'false'
+  #   container: archlinux:base-devel
+  #   outputs:
+  #     version: ${{ needs.check-ncspot-bin.outputs.version }}
+
+  #   steps:
+  #     - name: Checkout
+  #       uses: actions/checkout@v3
+  #       with:
+  #         repository: "hrkfdn/ncspot"
+  #         ref: "v${{ needs.check-ncspot-bin.outputs.version }}"
+
+  #     - name: Install dependecies
+  #       run: |
+  #         pacman -Syu --needed --noconfirm rustup cargo git alsa-lib python \
+  #         pkgconf openssl libpulse libxcb ncurses dbus
+
+  #     - name: Set up rustup
+  #       run: |
+  #         rustup set profile minimal
+  #         rustup default stable
+
+  #     - uses: actions/cache@v3
+  #       with:
+  #         path: |
+  #           ~/.cargo/bin/
+  #           ~/.cargo/registry/index/
+  #           ~/.cargo/registry/cache/
+  #           ~/.cargo/git/db/
+  #           target/
+  #         key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
+
+  #     - name: Run build
+  #       run: |
+  #         cargo fetch --locked
+  #         cargo build --release --locked --features cover
+  #         cargo test --release --locked
+
+  #     - uses: actions/upload-artifact@v3
+  #       with:
+  #         name: ncspot-v${{ needs.check-ncspot-bin.outputs.version }}
+  #         path: target/release/ncspot
+
+  # release-ncspot-bin:
+  #   name: Release ncspot
+  #   runs-on: ubuntu-latest
+  #   needs: build-ncspot-bin
+  #   env:
+  #     FOLDER: ncspot-bin
+  #   outputs:
+  #     version: ${{ needs.build-ncspot-bin.outputs.version }}
+
+  #   steps:
+  #     - name: Checkout
+  #       uses: actions/checkout@v3
+
+  #     - uses: actions/download-artifact@v3
+  #       with:
+  #         name: ncspot-v${{ needs.build-ncspot-bin.outputs.version }}
+  #         path: ${{ env.FOLDER }}
+
+  #     - name: Packaging assets
+  #       run: |
+  #         cd ${{ env.FOLDER }}
+  #         tar czvf ncspot-v${{ needs.build-ncspot-bin.outputs.version }}-linux-x86_64.tar.gz ncspot
+  #         shasum -a 512 ncspot-v${{ needs.build-ncspot-bin.outputs.version }}-linux-x86_64.tar.gz > ncspot-v${{ needs.build-ncspot-bin.outputs.version }}-linux-x86_64.sha512
+
+  #     - name: Releasing assets
+  #       uses: softprops/action-gh-release@v1
+  #       with:
+  #         name: ncspot@v${{ needs.build-ncspot-bin.outputs.version }}
+  #         tag_name: ncspot@v${{ needs.build-ncspot-bin.outputs.version }}
+  #         files: ${{ env.FOLDER }}/ncspot-*
+
+  # update-ncspot-bin:
+  #   name: Update ncspot-bin
+  #   needs: release-ncspot-bin
+  #   runs-on: ubuntu-latest
+  #   env:
+  #     FOLDER: ncspot-bin
+
+  #   steps:
+  #     - name: Checkout
+  #       uses: actions/checkout@v3
+  #       with:
+  #         persist-credentials: false
+  #         fetch-depth: 0
+
+  #     - name: Update PKGBUILD
+  #       uses: heyhusen/archlinux-package-action@v2.2.1
+  #       with:
+  #         path: "${{ env.FOLDER }}"
+  #         pkgver: ${{ needs.release-ncspot-bin.outputs.version }}
+  #         pkgrel: 1
+  #         namcap: false
+  #         updpkgsums: true
+  #         srcinfo: true
+  #         flags: ""
+
+  #     - name: Commit changes
+  #       if: github.event_name != 'pull_request'
+  #       run: |
+  #         git config --local user.name "github-actions[bot]"
+  #         git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
+  #         git add ${{ env.FOLDER }}/PKGBUILD ${{ env.FOLDER }}/.SRCINFO
+  #         git commit -m "chore(ncspot-bin): bump to v${{ needs.release-ncspot-bin.outputs.version }}"
+
+  #     - name: Push changes
+  #       if: github.event_name != 'pull_request'
+  #       uses: ad-m/github-push-action@master
+  #       with:
+  #         github_token: ${{ secrets.GITHUB_TOKEN }}
+
+  #     - name: Trigger CI workflow
+  #       if: github.event_name != 'pull_request'
+  #       uses: benc-uk/workflow-dispatch@master
+  #       with:
+  #         workflow: CI - ncspot-bin
+  #         token: ${{ secrets.PERSONAL_TOKEN }}
+  #         inputs: '{ "version": "${{ needs.release-ncspot-bin.outputs.version }}" }'
+
+  # check-plenti-bin:
+  #   name: Check plenti-bin
+  #   runs-on: ubuntu-latest
+  #   env:
+  #     FOLDER: plenti-bin
+  #   outputs:
+  #     found: ${{ steps.search-version.outputs.found }}
+  #     version: ${{ steps.get-version.outputs.version }}
+
+  #   steps:
+  #     - name: Checkout
+  #       uses: actions/checkout@v3
+
+  #     - name: Get upstream version
+  #       id: get-version
+  #       run: echo "::set-output name=version::$(curl --silent "https://api.github.com/repos/plentico/plenti/releases/latest" | grep '"tag_name":' | sed -E 's/.*"([^"]+)".*/\1/' | cut -c 2-)"
+
+  #     - name: Find version on PKGBUILD
+  #       id: search-version
+  #       run: |
+  #         cd ${{ env.FOLDER }}
+  #         if grep -q "${{ steps.get-version.outputs.version }}" PKGBUILD
+  #         then
+  #           echo "::set-output name=found::true"
+  #         else
+  #           echo "::set-output name=found::false"
+  #         fi
+
+  # update-plenti-bin:
+    # name: Update plenti-bin
+    # needs: check-plenti-bin
+    # if: needs.check-plenti-bin.outputs.found == 'false'
+    # runs-on: ubuntu-latest
+    # env:
+    #   FOLDER: plenti-bin
+
+    # steps:
+    #   - name: Checkout
+    #     uses: actions/checkout@v3
+    #     with:
+    #       persist-credentials: false
+    #       fetch-depth: 0
+
+    #   - name: Update PKGBUILD
+    #     uses: heyhusen/archlinux-package-action@v2.2.1
+    #     with:
+    #       path: "${{ env.FOLDER }}"
+    #       pkgver: ${{ needs.check-plenti-bin.outputs.version }}
+    #       pkgrel: 1
+    #       namcap: false
+    #       updpkgsums: true
+    #       srcinfo: true
+    #       flags: ""
+
+    #   - name: Commit changes
+    #     if: github.event_name != 'pull_request'
+    #     run: |
+    #       git config --local user.name "github-actions[bot]"
+    #       git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
+    #       git add ${{ env.FOLDER }}/PKGBUILD ${{ env.FOLDER }}/.SRCINFO
+    #       git commit -m "chore(plenti-bin): bump to v${{ needs.check-plenti-bin.outputs.version }}"
+
+    #   - name: Push changes
+    #     if: github.event_name != 'pull_request'
+    #     uses: ad-m/github-push-action@master
+    #     with:
+    #       github_token: ${{ secrets.GITHUB_TOKEN }}
+
+    #   - name: Trigger CI workflow
+    #     if: github.event_name != 'pull_request'
+    #     uses: benc-uk/workflow-dispatch@master
+    #     with:
+    #       workflow: CI - plenti-bin
+    #       token: ${{ secrets.PERSONAL_TOKEN }}
+    #       inputs: '{ "version": "${{ needs.check-plenti-bin.outputs.version }}" }'
