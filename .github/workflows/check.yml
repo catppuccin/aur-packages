@@ -41,9 +41,9 @@ jobs:
         id: diff
         run: |
           if git diff --quiet ${{ env.FOLDER }}/PKGBUILD; then
-            echo "::set-output name=changed::false"
+            echo "changed=false" >> $GITHUB_OUTPUT
           else
-            echo "::set-output name=changed::true"
+            echo "changed=true" >> $GITHUB_OUTPUT
           fi
 
   update-gtk-mocha:
@@ -56,21 +56,25 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
-      - name: Get version
+      - name: Get GTK release
         id: get-version
+        uses: pozetroninc/github-action-get-latest-release@master
+        with:
+          repository: catppuccin/gtk
+      
+      - name: Set GTK Mocha version
+        id: set-version
         run: |
-          cd ${{ env.FOLDER }}
-          git clone https://github.com/catppuccin/gtk.git && cd gtk
-          echo "::set-output name=version::$(printf "r%s.%s" "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)")"
-          cd ../ && rm -rf gtk
+          val=$(echo ${{ steps.get-version.outputs.release }} | sed 's/^v//')
+          echo "version=${val}" >> $GITHUB_OUTPUT
 
       - name: Update PKGBUILD
         uses: heyhusen/archlinux-package-action@v2.2.1
         with:
           path: "${{ env.FOLDER }}"
-          pkgver: ${{ steps.get-version.outputs.version }}
+          pkgver: ${{ steps.set-version.outputs.version }}
           pkgrel: 1
           srcinfo: true
           flags: ""
@@ -81,7 +85,7 @@ jobs:
           git config --local user.name "github-actions[bot]"
           git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add ${{ env.FOLDER }}/PKGBUILD ${{ env.FOLDER }}/.SRCINFO
-          git commit -m "chore(gtk-catppuccin-mocha): bump to ${{ steps.get-version.outputs.version }}"
+          git commit -m "chore(gtk-catppuccin-mocha): bump to ${{ steps.set-version.outputs.val }}"
 
       - name: Push changes
         if: github.event_name != 'pull_request'
