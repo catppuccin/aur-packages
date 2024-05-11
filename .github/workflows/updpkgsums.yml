@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@0ad4b8fadaa221de15dcec353f45205ec38ea70b # v4.1.4
+        uses: actions/checkout@v4.1.4 # v4.1.4
         with:
           fetch-depth: 0
 
@@ -24,7 +24,7 @@ jobs:
           echo "pkgbuild=$(git diff --name-only HEAD HEAD~1 "*/.SRCINFO" | head -1 | xargs dirname)" >> $GITHUB_ENV
 
       - name: Publish package
-        uses: KSXGitHub/github-actions-deploy-aur@f253a99125c1ca6bf2451d5a126fe04214d884bd # v2.7.1
+        uses: KSXGitHub/github-actions-deploy-aur@v2.7.1 # v2.7.1
         if: ${{ env.pkgbuild != '' }}
         with:
           pkgname: ${{ env.pkgbuild }}
