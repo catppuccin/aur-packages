@@ -1,8 +1,8 @@
-# Maintainer: spookyintheam <spookyintheam@protonmail.com>
+# Maintainer: Catppuccin <socials@catppuccin.com>
 
 pkgname=catppuccin-gtk-theme-latte
 pkgver=0.7.3
-pkgrel=1
+pkgrel=2
 pkgdesc='Soothing pastel theme for GTK3 - Latte'
 arch=('any')
 license=('GPL3')
