@@ -11,7 +11,10 @@ USER builder
 RUN git clone https://aur.archlinux.org/paru-bin.git
 WORKDIR /home/builder/paru-bin
 RUN makepkg -si --noconfirm
+COPY entrypoint.sh entrypoint.sh
+USER root 
+RUN chown -R builder:builder ./entrypoint.sh
+USER builder
+RUN chmod +x ./entrypoint.sh
 
-COPY entrypoint.sh /entrypoint.sh
-
-ENTRYPOINT [ "/entrypoint.sh" ]
+ENTRYPOINT [ "./entrypoint.sh" ]
