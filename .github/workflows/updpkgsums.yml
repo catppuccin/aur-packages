@@ -1,34 +1,39 @@
-name: publish
+name: updpkgsums
 
 on:
-  push:
+  pull_request:
+    types:
+      - opened
+      - synchronize
     branches:
       - main
-    paths:
-      - '*/PKGBUILD'
 
 jobs:
-  publish:
+  updpkgsums:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v4.1.4 # v4.1.4
+        uses: actions/checkout@v4.1.4
         with:
           fetch-depth: 0
+          ref: ${{ github.ref }}
 
       - name: Find updated package
         run: |
           #!/usr/bin/env bash
           set -euxo pipefail
 
-          echo "pkgbuild=$(git diff --name-only HEAD HEAD~1 "*/.SRCINFO" | head -1 | xargs dirname)" >> $GITHUB_ENV
+          echo "pkgbuild=$(git diff --name-only origin/main origin/${GITHUB_HEAD_REF} "*PKGBUILD" | head -1 | xargs dirname)" >> $GITHUB_ENV
 
-      - name: Publish package
-        uses: KSXGitHub/github-actions-deploy-aur@v2.7.1 # v2.7.1
+      - name: Validate package
         if: ${{ env.pkgbuild != '' }}
+        uses: ./.github/actions/aur
         with:
+          action: 'updpkgsums'
           pkgname: ${{ env.pkgbuild }}
-          pkgbuild: ${{ env.pkgbuild }}/PKGBUILD
-          commit_username: ${{ secrets.AUR_USERNAME }}
-          commit_email: ${{ secrets.AUR_EMAIL }}
-          ssh_private_key: ${{ secrets.AUR_SSH_PRIVATE_KEY }}
+
+      - name: Commit
+        if: ${{ env.pkgbuild != '' }}
+        uses: stefanzweifel/git-auto-commit-action@v5.0.1
+        with:
+          file_pattern: '*/PKGBUILD */.SRCINFO'
