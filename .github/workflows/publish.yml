@@ -27,8 +27,8 @@ jobs:
         uses: KSXGitHub/github-actions-deploy-aur@v2.7.1 # v2.7.1
         if: ${{ env.pkgbuild != '' }}
         with:
-          pkgname: ${{ env.pkgbuild }}
-          pkgbuild: ${{ env.pkgbuild }}/PKGBUILD
+          pkgname: packages/${{ env.pkgbuild }}
+          pkgbuild: packages/${{ env.pkgbuild }}/PKGBUILD
           commit_username: ${{ secrets.AUR_USERNAME }}
           commit_email: ${{ secrets.AUR_EMAIL }}
           ssh_private_key: ${{ secrets.AUR_SSH_PRIVATE_KEY }}
