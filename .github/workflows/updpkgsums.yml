@@ -8,7 +8,6 @@ on:
     branches:
       - main
     paths:
-      - '**/.SRCINFO'
       - '**/PKGBUILD'
 
 jobs:
@@ -30,7 +29,7 @@ jobs:
           #!/usr/bin/env bash
           set -euxo pipefail
 
-          dirs=$(git diff --name-only HEAD HEAD~1 "*/.SRCINFO" | xargs dirname)
+          dirs=$(git diff --name-only origin/main origin/${GITHUB_HEAD_REF} "*PKGBUILD" | xargs dirname)
           # Convert dirs that have been changed to a JSON array
           echo "pkgbuilds=$(printf '["%s"]' "$(echo "$dirs" | sed ':a;N;$!ba;s/\n/","/g')")" >> $GITHUB_OUTPUT
 
