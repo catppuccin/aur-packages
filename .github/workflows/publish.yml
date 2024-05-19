@@ -38,6 +38,9 @@ jobs:
         pkgbuild: ${{fromJSON(needs.setup.outputs.pkgbuilds)}}
 
     steps:
+      - name: Checkout
+        uses: actions/checkout@v4.1.6
+
       - name: Get pkgname
         run: echo "pkgname=$(${{ matrix.pkgbuild }} | basename)" >> $GITHUB_ENV
 
