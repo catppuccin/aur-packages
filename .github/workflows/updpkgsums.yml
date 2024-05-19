@@ -51,6 +51,10 @@ jobs:
           action: 'updpkgsums'
           pkgname: ${{ matrix.pkgbuild }}
 
+      - name: Pull changes
+        if: ${{ matrix.pkgbuild != '' }}
+        run: git pull --rebase
+
       - name: Commit
         if: ${{ matrix.pkgbuild != '' }}
         uses: stefanzweifel/git-auto-commit-action@v5.0.1
