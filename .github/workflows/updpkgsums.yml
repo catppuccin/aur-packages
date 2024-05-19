@@ -47,7 +47,7 @@ jobs:
         uses: ./.github/actions/aur
         with:
           action: 'updpkgsums'
-          pkgnames: ${{ matrix.pkgbuilds }}
+          pkgname: ${{ matrix.pkgbuild }}
 
       - name: Commit
         if: ${{ matrix.pkgbuild != '' }}
