@@ -37,6 +37,7 @@ jobs:
     runs-on: ubuntu-latest
     needs: [ setup ]
     strategy:
+      max-parallel: 1 # Hopefully we can remove this in the future
       matrix:
         pkgbuild: ${{fromJSON(needs.setup.outputs.pkgbuilds)}}
 
@@ -50,10 +51,6 @@ jobs:
         with:
           action: 'updpkgsums'
           pkgname: ${{ matrix.pkgbuild }}
-
-      - name: Pull changes
-        if: ${{ matrix.pkgbuild != '' }}
-        run: git pull origin ${GITHUB_HEAD_REF} --rebase --autostash
 
       - name: Commit
         if: ${{ matrix.pkgbuild != '' }}
