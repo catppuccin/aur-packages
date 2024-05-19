@@ -53,7 +53,7 @@ jobs:
 
       - name: Pull changes
         if: ${{ matrix.pkgbuild != '' }}
-        run: git pull origin/${GITHUB_HEAD_REF} --rebase --autostash
+        run: git pull origin ${GITHUB_HEAD_REF} --rebase --autostash
 
       - name: Commit
         if: ${{ matrix.pkgbuild != '' }}
