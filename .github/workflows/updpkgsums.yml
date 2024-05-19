@@ -7,10 +7,16 @@ on:
       - synchronize
     branches:
       - main
+    paths:
+      - '**/.SRCINFO'
+      - '**/PKGBUILD'
 
 jobs:
-  updpkgsums:
+  setup:
     runs-on: ubuntu-latest
+    outputs:
+      pkgbuilds: ${{ steps.matrix.outputs.pkgbuilds }}
+
     steps:
       - name: Checkout
         uses: actions/checkout@v4.1.6
@@ -18,22 +24,33 @@ jobs:
           fetch-depth: 0
           ref: ${{ github.ref }}
 
-      - name: Find updated package
+      - name: Find updated packages and construct matrix
+        id: matrix
         run: |
           #!/usr/bin/env bash
           set -euxo pipefail
 
-          echo "pkgbuild=$(git diff --name-only origin/main origin/${GITHUB_HEAD_REF} "*PKGBUILD" | head -1 | xargs dirname)" >> $GITHUB_ENV
+          dirs=$(git diff --name-only HEAD HEAD~1 "*/.SRCINFO" | xargs dirname)
+          # Convert dirs that have been changed to a JSON array
+          echo "pkgbuilds=$(printf '["%s"]' "$(echo "$dirs" | sed ':a;N;$!ba;s/\n/","/g')")" >> $GITHUB_OUTPUT
 
-      - name: Validate package
-        if: ${{ env.pkgbuild != '' }}
+  updpkgsums:
+    runs-on: ubuntu-latest
+    needs: [ setup ]
+    strategy:
+      matrix:
+        pkgbuild: ${{fromJSON(needs.setup.outputs.pkgbuilds)}}
+
+    steps:
+      - name: Validate packages
+        if: ${{ matrix.pkgbuild != '' }}
         uses: ./.github/actions/aur
         with:
           action: 'updpkgsums'
-          pkgname: ${{ env.pkgbuild }}
+          pkgname: ${{ matrix.pkgbuild }}
 
       - name: Commit
-        if: ${{ env.pkgbuild != '' }}
+        if: ${{ matrix.pkgbuild != '' }}
         uses: stefanzweifel/git-auto-commit-action@v5.0.1
         with:
           file_pattern: '*/PKGBUILD */.SRCINFO'

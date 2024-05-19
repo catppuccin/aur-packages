@@ -9,27 +9,44 @@ on:
       - '**/PKGBUILD'
 
 jobs:
-  publish:
+  setup:
     runs-on: ubuntu-latest
+    outputs:
+      pkgbuilds: ${{ steps.matrix.outputs.pkgbuilds }}
+
     steps:
       - name: Checkout
         uses: actions/checkout@v4.1.6
         with:
           fetch-depth: 0
 
-      - name: Find updated package
+      - name: Find updated packages and construct matrix
+        id: matrix
         run: |
           #!/usr/bin/env bash
           set -euxo pipefail
 
-          echo "pkgbuild=$(git diff --name-only HEAD HEAD~1 "*/.SRCINFO" | head -1 | xargs dirname)" >> $GITHUB_ENV
+          dirs=$(git diff --name-only HEAD HEAD~1 "*/.SRCINFO" | xargs dirname)
+          # Convert dirs that have been changes to a JSON array
+          echo "pkgbuilds=$(printf '["%s"]' "$(echo "$dirs" | sed ':a;N;$!ba;s/\n/","/g')")" >> $GITHUB_OUTPUT
 
-      - name: Publish package
+  publish:
+    runs-on: ubuntu-latest
+    needs: [ setup ]
+    strategy:
+      matrix:
+        pkgbuild: ${{fromJSON(needs.setup.outputs.pkgbuilds)}}
+
+    steps:
+      - name: Get pkgname
+        run: echo "pkgname=$(${{ matrix.pkgbuild }} | basename)" >> $GITHUB_ENV
+
+      - name: Publish packages
         uses: KSXGitHub/github-actions-deploy-aur@v2.7.1 # v2.7.1
-        if: ${{ env.pkgbuild != '' }}
+        if: ${{ matrix.pkgbuild != '' }}
         with:
-          pkgname: packages/${{ env.pkgbuild }}
-          pkgbuild: packages/${{ env.pkgbuild }}/PKGBUILD
+          pkgname: ${{ env.pkgname }}
+          pkgbuild: ${{ matrix.pkgbuild }}/PKGBUILD
           commit_username: ${{ secrets.AUR_USERNAME }}
           commit_email: ${{ secrets.AUR_EMAIL }}
           ssh_private_key: ${{ secrets.AUR_SSH_PRIVATE_KEY }}
