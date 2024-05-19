@@ -42,7 +42,7 @@ jobs:
         uses: KSXGitHub/github-actions-deploy-aur@v2.7.1 # v2.7.1
         if: ${{ matrix.pkgbuild != '' }}
         with:
-          pkgname: packages/${{ matrix.pkgbuild }}
+          pkgname: ${{ matrix.pkgbuild }}
           pkgbuild: packages/${{ matrix.pkgbuild }}/PKGBUILD
           commit_username: ${{ secrets.AUR_USERNAME }}
           commit_email: ${{ secrets.AUR_EMAIL }}
