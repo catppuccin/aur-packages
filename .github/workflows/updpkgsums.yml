@@ -53,7 +53,7 @@ jobs:
 
       - name: Pull changes
         if: ${{ matrix.pkgbuild != '' }}
-        run: git pull --rebase
+        run: git pull --rebase --autostash
 
       - name: Commit
         if: ${{ matrix.pkgbuild != '' }}
