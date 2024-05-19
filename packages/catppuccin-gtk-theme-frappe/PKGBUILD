@@ -1,7 +1,7 @@
 # Maintainer: Catppuccin <releases@catppuccin.com>
 
 pkgname=catppuccin-gtk-theme-frappe
-pkgver=0.7.3 # renovate: datasource=github-tags depName=catppuccin/gtk
+pkgver=0.7.5 # renovate: datasource=github-tags depName=catppuccin/gtk
 pkgrel=2
 pkgdesc='Soothing pastel theme for GTK3 - Frappe'
 arch=('any')
