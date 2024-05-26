@@ -1,43 +1,47 @@
 # Maintainer: Catppuccin <releases@catppuccin.com>
 
 pkgname=catppuccin-gtk-theme-frappe
-pkgver=0.7.5 # renovate: datasource=github-tags depName=catppuccin/gtk
-pkgrel=2
-pkgdesc='Soothing pastel theme for GTK3 - Frappe'
+pkgver=1.0.0 # renovate: datasource=github-tags depName=catppuccin/gtk
+pkgrel=1
+pkgdesc='Soothing pastel theme for GTK - Frappe'
 arch=('any')
 license=('GPL3')
 url='https://github.com/catppuccin/gtk'
-source=("$pkgname-$pkgver-blue.zip::$url/releases/download/v$pkgver/Catppuccin-Frappe-Standard-Blue-Dark.zip"
-        "$pkgname-$pkgver-flamingo.zip::$url/releases/download/v$pkgver/Catppuccin-Frappe-Standard-Flamingo-Dark.zip"
-        "$pkgname-$pkgver-green.zip::$url/releases/download/v$pkgver/Catppuccin-Frappe-Standard-Green-Dark.zip"
-        "$pkgname-$pkgver-lavender.zip::$url/releases/download/v$pkgver/Catppuccin-Frappe-Standard-Lavender-Dark.zip"
-        "$pkgname-$pkgver-maroon.zip::$url/releases/download/v$pkgver/Catppuccin-Frappe-Standard-Maroon-Dark.zip"
-        "$pkgname-$pkgver-mauve.zip::$url/releases/download/v$pkgver/Catppuccin-Frappe-Standard-Mauve-Dark.zip"
-        "$pkgname-$pkgver-peach.zip::$url/releases/download/v$pkgver/Catppuccin-Frappe-Standard-Peach-Dark.zip"
-        "$pkgname-$pkgver-pink.zip::$url/releases/download/v$pkgver/Catppuccin-Frappe-Standard-Pink-Dark.zip"
-        "$pkgname-$pkgver-red.zip::$url/releases/download/v$pkgver/Catppuccin-Frappe-Standard-Red-Dark.zip"
-        "$pkgname-$pkgver-rosewater.zip::$url/releases/download/v$pkgver/Catppuccin-Frappe-Standard-Rosewater-Dark.zip"
-        "$pkgname-$pkgver-sapphire.zip::$url/releases/download/v$pkgver/Catppuccin-Frappe-Standard-Sapphire-Dark.zip"
-        "$pkgname-$pkgver-sky.zip::$url/releases/download/v$pkgver/Catppuccin-Frappe-Standard-Sky-Dark.zip"
-        "$pkgname-$pkgver-teal.zip::$url/releases/download/v$pkgver/Catppuccin-Frappe-Standard-Teal-Dark.zip"
-        "$pkgname-$pkgver-yellow.zip::$url/releases/download/v$pkgver/Catppuccin-Frappe-Standard-Yellow-Dark.zip")
+source=(
+	"$pkgname-$pkgver-blue.zip::$url/releases/download/v$pkgver/catppuccin-frappe-blue-standard+default.zip"
+	"$pkgname-$pkgver-flamingo.zip::$url/releases/download/v$pkgver/catppuccin-frappe-flamingo-standard+default.zip"
+	"$pkgname-$pkgver-green.zip::$url/releases/download/v$pkgver/catppuccin-frappe-green-standard+default.zip"
+	"$pkgname-$pkgver-lavender.zip::$url/releases/download/v$pkgver/catppuccin-frappe-lavender-standard+default.zip"
+	"$pkgname-$pkgver-maroon.zip::$url/releases/download/v$pkgver/catppuccin-frappe-maroon-standard+default.zip"
+	"$pkgname-$pkgver-mauve.zip::$url/releases/download/v$pkgver/catppuccin-frappe-mauve-standard+default.zip"
+	"$pkgname-$pkgver-peach.zip::$url/releases/download/v$pkgver/catppuccin-frappe-peach-standard+default.zip"
+	"$pkgname-$pkgver-pink.zip::$url/releases/download/v$pkgver/catppuccin-frappe-pink-standard+default.zip"
+	"$pkgname-$pkgver-red.zip::$url/releases/download/v$pkgver/catppuccin-frappe-red-standard+default.zip"
+	"$pkgname-$pkgver-rosewater.zip::$url/releases/download/v$pkgver/catppuccin-frappe-rosewater-standard+default.zip"
+	"$pkgname-$pkgver-sapphire.zip::$url/releases/download/v$pkgver/catppuccin-frappe-sapphire-standard+default.zip"
+	"$pkgname-$pkgver-sky.zip::$url/releases/download/v$pkgver/catppuccin-frappe-sky-standard+default.zip"
+	"$pkgname-$pkgver-teal.zip::$url/releases/download/v$pkgver/catppuccin-frappe-teal-standard+default.zip"
+	"$pkgname-$pkgver-yellow.zip::$url/releases/download/v$pkgver/catppuccin-frappe-yellow-standard+default.zip"
+)
 
-sha256sums=('9619ac92c2f8a852907b729fbb8c7b5f45b4967e1260b8ce27caaa37270ea77a'
-            '136ac3cf8852cfbb980d27e5a4edafedfd742b28d552c10d1cdd0298a8e4cef9'
-            '64cb9d38ab5c48e7445be4e24f2b9a8544062e7a29b796c8bbb7cd46b79022c2'
-            '0b0ea2d97f3e832ef25c819f34b9c96db5f9d56311f820104ae9aedfec36b083'
-            'f0c53c483829dd04b42e225b370c3ea1c70682cfbdb0c40807f36d064dea5512'
-            'c6d263c8a0d5d0d65879d8feee79507d6ed4a355e7e11a8399f0f2257a909170'
-            '97f3dd8743b5f58037e0a836f3b170143add5a4eac2709f3ee32fc9517e32572'
-            'f9257ee6475ddc808bbca661bded1e2f72847a2de15fa05d9a8fec90af8e70e2'
-            'f18d9085aa67cacd15e5a9aefcce30671d49ed49403090a9f5ad288230b470b3'
-            'e83979c13c3e669d4d6b3c1fa46063f6ba2af075578f3b418da57c0615639034'
-            '58181b99ec40396b4d5f8d56b4a44f490406403d8d6ed34e55b6c07b50105dbc'
-            '206bd992be7a5ca5c8dce559df7da0345f0178877111cb49a28d86c519b5e93c'
-            'b781b9a96d2641a329d9703188443a68aacbefda7e4af5abd52942348526fd07'
-            'd90478713a7c9c476bc7e881dbabe53ed7f183f94baeb699ccd162060b746250')
+sha256sums=(
+	'dbfbba40be6e650a910abffb1d8bd78702530cf8bfd09717b15bf3e1f4e96f29'
+	'd2eb39be989e8753119fef44ec8510c522867564f7f1b288db597a523c6f6176'
+	'b62187072284381c317ddaaad7faabe35d13e5dd82083dbfb4d71ffe82e82a6f'
+	'1bc50048aeb16de8fca8a883650b05fde85816b99e41948b55fac0a30c1d7c4b'
+	'2f4e232179f6d61286ba759bd28e55151d052a8bf3aee9efd2515f32a24817a8'
+	'c3c55fe7e16c55e2cfb3592507fc1e0ae5a0a4b1ca44a4502a0186243092599f'
+	'96a75e1e5e5bb66714f8757d2c55824ffb4b378f167ff6a71b5d29892bac52c0'
+	'b32c008607a8a4131d999c07ab6a51d931a254d2e3196dadd12dec6a7a86e4dd'
+	'e18806f168a338a63ee8089abaa4b968de8ca7ba4fdb104ca5b24f2e2a07ffe2'
+	'ab50b37ebda6687efc4144b6d576f04242e73bccc1570913e3d312c9c1fdb847'
+	'e73f176843004a15774e612a64744f8de444bc97370a61707ed5445e335df201'
+	'94ed9688f00e65d353a9bcc3d51e23717ce4db4aa9893e592446c77cf22b615d'
+	'40882201283de0037fea985513da91af705b652acd07c137789611a73b69df50'
+	'6f1ff8652b6e7f08015e894aa84d18a5a21ae1d3407e8d887cdc6c70d6843599'
+)
 package() {
-    install -d "$pkgdir/usr/share/themes"
-    cp -r -a --no-preserve=ownership \
-      Catppuccin-Frappe-* "$pkgdir/usr/share/themes"
+	install -d "$pkgdir/usr/share/themes"
+	cp -r -a --no-preserve=ownership \
+		catppuccin-frappe-* "$pkgdir/usr/share/themes"
 }

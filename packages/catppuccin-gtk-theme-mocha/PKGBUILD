@@ -1,43 +1,47 @@
 # Maintainer: Catppuccin <releases@catppuccin.com>
 
 pkgname=catppuccin-gtk-theme-mocha
-pkgver=0.7.5 # renovate: datasource=github-tags depName=catppuccin/gtk
-pkgrel=2
-pkgdesc='Soothing pastel theme for GTK3 - Mocha'
+pkgver=1.0.0 # renovate: datasource=github-tags depName=catppuccin/gtk
+pkgrel=1
+pkgdesc='Soothing pastel theme for GTK - Mocha'
 arch=('any')
 license=('GPL3')
 url='https://github.com/catppuccin/gtk'
-source=("$pkgname-$pkgver-blue.zip::$url/releases/download/v$pkgver/Catppuccin-Mocha-Standard-Blue-Dark.zip"
-        "$pkgname-$pkgver-flamingo.zip::$url/releases/download/v$pkgver/Catppuccin-Mocha-Standard-Flamingo-Dark.zip"
-        "$pkgname-$pkgver-green.zip::$url/releases/download/v$pkgver/Catppuccin-Mocha-Standard-Green-Dark.zip"
-        "$pkgname-$pkgver-lavender.zip::$url/releases/download/v$pkgver/Catppuccin-Mocha-Standard-Lavender-Dark.zip"
-        "$pkgname-$pkgver-maroon.zip::$url/releases/download/v$pkgver/Catppuccin-Mocha-Standard-Maroon-Dark.zip"
-        "$pkgname-$pkgver-mauve.zip::$url/releases/download/v$pkgver/Catppuccin-Mocha-Standard-Mauve-Dark.zip"
-        "$pkgname-$pkgver-peach.zip::$url/releases/download/v$pkgver/Catppuccin-Mocha-Standard-Peach-Dark.zip"
-        "$pkgname-$pkgver-pink.zip::$url/releases/download/v$pkgver/Catppuccin-Mocha-Standard-Pink-Dark.zip"
-        "$pkgname-$pkgver-red.zip::$url/releases/download/v$pkgver/Catppuccin-Mocha-Standard-Red-Dark.zip"
-        "$pkgname-$pkgver-rosewater.zip::$url/releases/download/v$pkgver/Catppuccin-Mocha-Standard-Rosewater-Dark.zip"
-        "$pkgname-$pkgver-sapphire.zip::$url/releases/download/v$pkgver/Catppuccin-Mocha-Standard-Sapphire-Dark.zip"
-        "$pkgname-$pkgver-sky.zip::$url/releases/download/v$pkgver/Catppuccin-Mocha-Standard-Sky-Dark.zip"
-        "$pkgname-$pkgver-teal.zip::$url/releases/download/v$pkgver/Catppuccin-Mocha-Standard-Teal-Dark.zip"
-        "$pkgname-$pkgver-yellow.zip::$url/releases/download/v$pkgver/Catppuccin-Mocha-Standard-Yellow-Dark.zip")
-sha256sums=('2862fa1265a0ec714ffb6ef05000001ffa51e2e639e36617028605bc17b516a6'
-            '62a1238b5f78c09e1225f6c2f669d5cc0ae33495fc09736b7bae70be3bb2205d'
-            '40d8616bebf16cc33ea38e932b4a20b988028cea7b5d26335a9618c8d74825d6'
-            '37e4d663922672c9504272919bbeceb9882b59eebd768e2b2f9a23977e04d3c8'
-            'bab48750ca19e1cec923f2871c66e2c5475a3c21b1da6ecc06f44b02a1b9f46f'
-            '816c6f03d72e7d724f2e67afcb895eda51446c4bc4091e46fb608a006fd6a11a'
-            '0f8850bafbce2917d6bccb3de05d8e5b01fee53a36c614869989c577bb434b04'
-            '55cbafca17fd937b0b4d866bd917d77f69e427e5a36817852f329323ec42e0d4'
-            '299146c2a1fd897f418ef25ef9a1027cb1bb4125fccc44929c6bd30f7ac5707f'
-            '561fa59a75f65499f5de191beacfeeb0502771e94bf905950b11d6cc1b5c5b4f'
-            '7148e7790f2d6f2726fde72a2699af63cbae07a388fca585e8d96674c4afa8cb'
-            'c25cb49d113b799d0b6c6756c9fce06e1ceb436f79c0e245093c988c70f2e4c0'
-            'cb1356966f8868fc99e412477dbcc338cb64bcadb031b7534d392487b5a82cc8'
-            'eb0e3ae8764ca43ec1b7c3394b9bb2cae1d90be86b1d15c28ce497541bccd759')
+source=(
+	"$pkgname-$pkgver-blue.zip::$url/releases/download/v$pkgver/catppuccin-mocha-blue-standard+default.zip"
+	"$pkgname-$pkgver-flamingo.zip::$url/releases/download/v$pkgver/catppuccin-mocha-flamingo-standard+default.zip"
+	"$pkgname-$pkgver-green.zip::$url/releases/download/v$pkgver/catppuccin-mocha-green-standard+default.zip"
+	"$pkgname-$pkgver-lavender.zip::$url/releases/download/v$pkgver/catppuccin-mocha-lavender-standard+default.zip"
+	"$pkgname-$pkgver-maroon.zip::$url/releases/download/v$pkgver/catppuccin-mocha-maroon-standard+default.zip"
+	"$pkgname-$pkgver-mauve.zip::$url/releases/download/v$pkgver/catppuccin-mocha-mauve-standard+default.zip"
+	"$pkgname-$pkgver-peach.zip::$url/releases/download/v$pkgver/catppuccin-mocha-peach-standard+default.zip"
+	"$pkgname-$pkgver-pink.zip::$url/releases/download/v$pkgver/catppuccin-mocha-pink-standard+default.zip"
+	"$pkgname-$pkgver-red.zip::$url/releases/download/v$pkgver/catppuccin-mocha-red-standard+default.zip"
+	"$pkgname-$pkgver-rosewater.zip::$url/releases/download/v$pkgver/catppuccin-mocha-rosewater-standard+default.zip"
+	"$pkgname-$pkgver-sapphire.zip::$url/releases/download/v$pkgver/catppuccin-mocha-sapphire-standard+default.zip"
+	"$pkgname-$pkgver-sky.zip::$url/releases/download/v$pkgver/catppuccin-mocha-sky-standard+default.zip"
+	"$pkgname-$pkgver-teal.zip::$url/releases/download/v$pkgver/catppuccin-mocha-teal-standard+default.zip"
+	"$pkgname-$pkgver-yellow.zip::$url/releases/download/v$pkgver/catppuccin-mocha-yellow-standard+default.zip"
+)
+sha256sums=(
+	'13655a1b1c6312a398302262816864ce092baae46b7c47d7e09afd8f9d16bb9b'
+	'c781e4bd4d23b660709b9e23c3b4d34fd91f99d1b00e185b8a225dc05eded264'
+	'5ec96a806a1a0eed8dd2520089c3b3ed14ef620dd3fb95022d33fe59269d1f2d'
+	'c10440a0c40c627841061760a0039dfd8925fdfbafe224a84f180c5f51a15249'
+	'351b33d68be1392179e9e4fef21baf293734004e9ff98e49307a0ca8edd3bb7c'
+	'ab6718377cd83946777562a88fccf6c34c484790b3af3ce7df387a92d1886465'
+	'53aec65122633d7dfe6a7128ca413f7b8284f697958c590a9f5892c939f938f8'
+	'c81eecdacac49f384a4cde30da474bd1f3aa45e7f33f69f31535494190be1e0f'
+	'7a7f110b9547969fe1451b0ddd0343df501ae1ef5014e0909dac13d0de568f1d'
+	'3cf5d0114c7296f141a70214c0fc5a076fedaa4575f26ee4e3993dfbf8adec1b'
+	'e053c1b97209f61e2973c5d8a41d23bb84b0ec822ed950f542b44630b398e6fb'
+	'a17c61b490bf8054242cb965accc31696a662d7b16eeb49f1787a12360d71abc'
+	'652b54287fe73bc8008d9e3c270a018cb4eec7074bc2fe720b14d2072a9672f0'
+	'541ae1fa85a3cefe671484c7e28b5f307220b275867fb55f35d4650883fbec07'
+)
 
 package() {
 	install -d "$pkgdir/usr/share/themes/"
 	cp -r -a --no-preserve=ownership \
-    Catppuccin-Mocha-* "$pkgdir/usr/share/themes"
+		catppuccin-mocha-* "$pkgdir/usr/share/themes"
 }
