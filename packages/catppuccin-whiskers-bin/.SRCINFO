@@ -7,6 +7,7 @@ pkgbase = catppuccin-whiskers-bin
 	license = MIT
 	provides = whiskers
 	conflicts = whiskers
+	conflicts = whiskers-bin
 	conflicts = catppuccin-whiskers-bin
 	source = https://github.com/catppuccin/whiskers/releases/download/v2.3.0/whiskers-x86_64-unknown-linux-gnu
 	sha256sums = c1f6588ad551ac54ff1316b17dafb5edd77f97b1054d26479299366190bc2833
