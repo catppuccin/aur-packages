@@ -6,7 +6,7 @@ pkgrel=1
 pkgdesc="Soothing port creation tool for the high-spirited!"
 url="https://github.com/catppuccin/whiskers"
 provides=('whiskers')
-conflicts=('whiskers' 'catppuccin-whiskers-bin')
+conflicts=('whiskers' 'whiskers-bin' 'catppuccin-whiskers-bin')
 license=('MIT')
 arch=('x86_64')
 
