@@ -44,11 +44,25 @@ jobs:
       - name: Get pkgname
         run: echo "pkgname=$(basename ${{ matrix.pkgbuild }})" >> $GITHUB_ENV
 
+      - name: Get additional assets
+        run: |
+          #!/usr/bin/env bash
+          set -euxo pipefail
+
+          assets_txt='${{ matrix.pkgbuild }}/assets.txt'
+          if [ ! -f $assets_txt ]; then
+            echo "assets=''" >> $GITHUB_ENV
+          else
+            glob=$(cat "$assets_txt")
+            echo "assets=$(echo -n $glob)" >> $GITHUB_ENV
+          fi
+
       - name: Publish packages
         uses: KSXGitHub/github-actions-deploy-aur@v2.7.1 # v2.7.1
         if: ${{ matrix.pkgbuild != '' }}
         with:
           pkgname: ${{ env.pkgname }}
+          assets: ${{ matrix.pkgbuild }}/${{ env.assets }}
           pkgbuild: ${{ matrix.pkgbuild }}/PKGBUILD
           commit_username: ${{ secrets.AUR_USERNAME }}
           commit_email: ${{ secrets.AUR_EMAIL }}
