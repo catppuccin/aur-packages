@@ -13,9 +13,7 @@ source=(
 	"${pkgname}-${pkgver}.tar.gz::https://github.com/catppuccin/jupyterlab/archive/refs/tags/v${pkgver}.tar.gz"
 )
 
-sha256sums=(
-	'a81ecc1b855f38c18dc75ca261933a0a8d54fbb24522815c2dc1f18f8e639653'
-)
+sha256sums=('a81ecc1b855f38c18dc75ca261933a0a8d54fbb24522815c2dc1f18f8e639653')
 
 build() {
 	cd "jupyterlab-$pkgver"
