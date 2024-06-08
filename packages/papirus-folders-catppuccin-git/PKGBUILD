@@ -35,7 +35,7 @@ package() {
   cp -r src/* "$pkgdir/usr/share/icons/Papirus"
   cp ../papirus-folders ../_papirus-folders
 
-  install -Dm755 papirus-folders -t "$pkgdir/usr/bin"
+  install -Dm755 ../papirus-folders -t "$pkgdir/usr/bin"
   install -Dm644 LICENSE -t "$pkgdir/usr/share/licenses/${pkgname}"
   install -Dm644 ../papirus-folders.hook -t "$pkgdir/usr/share/libalpm/hooks"
 
