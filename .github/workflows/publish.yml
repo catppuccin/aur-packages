@@ -51,7 +51,7 @@ jobs:
 
           assets_txt='${{ matrix.pkgbuild }}/assets.txt'
           if [ ! -f $assets_txt ]; then
-            echo "assets=''" >> $GITHUB_ENV
+            echo "assets=" >> $GITHUB_ENV
           else
             glob=$(cat "$assets_txt")
             echo "assets=$(echo -n $glob)" >> $GITHUB_ENV
