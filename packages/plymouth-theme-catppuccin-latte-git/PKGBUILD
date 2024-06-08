@@ -6,7 +6,7 @@ pkgname=(
   plymouth-theme-catppuccin-macchiato-git
   plymouth-theme-catppuccin-mocha-git
 )
-pkgver=r4.d4105cf
+pkgver=r12.e13c348
 pkgrel=1
 pkgdesc="Soothing pastel theme for Plymouth"
 arch=('any')
