@@ -4,7 +4,7 @@
 # shellcheck shell=bash
 
 pkgname=papirus-folders-catppuccin-git
-pkgver=r27.667f3e7a
+pkgver=r28.0ad3b88a
 pkgrel=1
 pkgdesc="Soothing pastel theme for Papirus Icon Theme folders"
 arch=("any")
