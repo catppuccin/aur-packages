@@ -6,14 +6,33 @@ pkgrel=1
 pkgdesc="Soothing pastel theme for JupyterLab"
 url="https://github.com/catppuccin/jupyterlab"
 depends=(python jupyterlab)
-makedepends=(python-build python-installer python-hatch-jupyter-builder python-hatch-nodejs-version python-rfc3986-validator jupyterlab python-jupyterlab-server jupyter-notebook-shim jupyter-lsp python-ipykernel python-isoduration python-fqdn python-rfc3339-validator python-jsonpointer python-terminado python-webcolors python-uri-template python-debugpy python-types-python-dateutil nodejs npm)
+makedepends=(
+	jupyter-lsp
+	jupyterlab
+	nodejs
+	npm
+	python-build
+	python-debugpy
+	python-fqdn
+	python-installer
+	python-isoduration
+	python-jsonpointer
+	python-rfc3339-validator
+	python-rfc3986-validator
+	python-terminado
+	python-types-python-dateutil
+	python-uri-template
+	python-webcolors
+)
 arch=("any")
 license=("MIT")
 source=(
 	"${pkgname}-${pkgver}.tar.gz::https://github.com/catppuccin/jupyterlab/archive/refs/tags/v${pkgver}.tar.gz"
 )
 
-sha256sums=('a81ecc1b855f38c18dc75ca261933a0a8d54fbb24522815c2dc1f18f8e639653')
+sha256sums=(
+	'a81ecc1b855f38c18dc75ca261933a0a8d54fbb24522815c2dc1f18f8e639653'
+)
 
 build() {
 	cd "jupyterlab-$pkgver"
