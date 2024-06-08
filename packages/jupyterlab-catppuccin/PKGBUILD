@@ -24,6 +24,7 @@ makedepends=(
 	python-uri-template
 	python-webcolors
   python-hatch-jupyter-builder
+  python-hatch-nodejs-version
 )
 arch=("any")
 license=("MIT")
