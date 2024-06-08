@@ -57,9 +57,19 @@ jobs:
             echo "assets=$(echo -n $glob)" >> $GITHUB_ENV
           fi
 
-      - name: Publish packages
+      - name: Publish packages without assets
         uses: KSXGitHub/github-actions-deploy-aur@v2.7.1 # v2.7.1
-        if: ${{ matrix.pkgbuild != '' }}
+        if: ${{ matrix.pkgbuild != '' && env.assets == '' }}
+        with:
+          pkgname: ${{ env.pkgname }}
+          pkgbuild: ${{ matrix.pkgbuild }}/PKGBUILD
+          commit_username: ${{ secrets.AUR_USERNAME }}
+          commit_email: ${{ secrets.AUR_EMAIL }}
+          ssh_private_key: ${{ secrets.AUR_SSH_PRIVATE_KEY }}
+
+      - name: Publish packages with assets
+        uses: KSXGitHub/github-actions-deploy-aur@v2.7.1 # v2.7.1
+        if: ${{ matrix.pkgbuild != '' && env.assets != '' }}
         with:
           pkgname: ${{ env.pkgname }}
           assets: ${{ matrix.pkgbuild }}/${{ env.assets }}
