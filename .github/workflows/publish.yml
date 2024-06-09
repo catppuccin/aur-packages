@@ -26,7 +26,8 @@ jobs:
           #!/usr/bin/env bash
           set -euxo pipefail
 
-          dirs=$(git diff --name-only HEAD HEAD~1 "*/.SRCINFO" | xargs dirname)
+          # Get all directories that have had edits made to their PKGBUILD or .SRCINFO in the last commit
+          dirs=$(git diff --name-only HEAD HEAD~1 "*/PKGBUILD" "*/.SRCINFO" | xargs dirname | sort | uniq)
           # Convert dirs that have been changes to a JSON array
           echo "pkgbuilds=$(printf '["%s"]' "$(echo "$dirs" | sed ':a;N;$!ba;s/\n/","/g')")" >> $GITHUB_OUTPUT
 
