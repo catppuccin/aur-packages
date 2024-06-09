@@ -1,5 +1,6 @@
 # Maintainer: Catppuccin <releases@catppuccin.com>
 
+
 pkgbase=plymouth-theme-catppuccin-git
 pkgname=(
   plymouth-theme-catppuccin-latte-git
