@@ -37,7 +37,7 @@ sha256sums=('9e905dd49ac1a66aa75e08cd836685b46f9d6fe80a907172c35accf79d65a948')
 
 build() {
 	cd "jupyterlab-$pkgver"
-	python -m build --wheel --no-isolation -vvv
+	python -m build --wheel --no-isolation
 }
 
 package() {
