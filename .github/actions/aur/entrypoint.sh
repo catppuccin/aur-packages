@@ -32,7 +32,7 @@ paru -Syu --removemake --needed --noconfirm "${depends[@]}" "${makedepends[@]}"
 echo "::endgroup::"
 
 echo "::group::Running makepkg"
-makepkg
+makepkg --syncdeps
 echo "::endgroup::"
 
 echo "::group::Generating new .SRCINFO based on PKGBUILD"
