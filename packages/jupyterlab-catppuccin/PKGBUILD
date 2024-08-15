@@ -1,7 +1,7 @@
 # Maintainer: Catppuccin <releases@catppuccin.com>
 
 pkgname=jupyterlab-catppuccin
-pkgver=0.2.3 # renovate: datasource=github-tags depName=catppuccin/jupyterlab
+pkgver=0.2.4 # renovate: datasource=github-tags depName=catppuccin/jupyterlab
 pkgrel=1
 pkgdesc="Soothing pastel theme for JupyterLab"
 url="https://github.com/catppuccin/jupyterlab"
