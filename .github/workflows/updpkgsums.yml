@@ -48,6 +48,7 @@ jobs:
         with:
           repository: ${{ github.event.pull_request.head.repo.full_name }}
           ref: ${{ github.head_ref }}
+          token: ${{ secrets.COMMIT_TOKEN }}
 
       - name: Validate packages
         if: ${{ matrix.pkgbuild != '' }}
@@ -61,5 +62,3 @@ jobs:
         uses: stefanzweifel/git-auto-commit-action@v5.0.1
         with:
           file_pattern: '*/PKGBUILD */.SRCINFO'
-          commit_user_name: Hammy # defaults to "github-actions[bot]"
-          commit_user_email: <58985301+sgoudham@users.noreply.github.com> # defaults to "41898282+github-actions[bot]@users.noreply.github.com"
