@@ -11,21 +11,8 @@ makedepends=(
 	jupyterlab
 	nodejs
 	npm
-	python-setuptools
 	python-build
-	python-debugpy
-	python-fqdn
 	python-installer
-	python-isoduration
-	python-jsonpointer
-	python-rfc3339-validator
-	python-rfc3986-validator
-	python-terminado
-	python-types-python-dateutil
-	python-uri-template
-	python-webcolors
-	python-hatch-jupyter-builder
-	python-hatch-nodejs-version
 )
 arch=("any")
 license=("MIT")
@@ -37,7 +24,7 @@ sha256sums=('6538bc09e6ba12782c0e3f9f2aba32aa8a8b4c4f607a014ae1dff841a5b5d3bb')
 
 build() {
 	cd "jupyterlab-$pkgver"
-	python -m build --wheel --no-isolation
+	python -m build --wheel
 }
 
 package() {
