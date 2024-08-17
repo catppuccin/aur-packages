@@ -20,7 +20,6 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4.1.7
         with:
-          repository: ${{ github.event.pull_request.head.repo.full_name }}
           fetch-depth: 0
           ref: ${{ github.head_ref }}
 
@@ -45,10 +44,6 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4.1.7
-        with:
-          repository: ${{ github.event.pull_request.head.repo.full_name }}
-          ref: ${{ github.head_ref }}
-          token: ${{ secrets.COMMIT_TOKEN }}
 
       - name: Validate packages
         if: ${{ matrix.pkgbuild != '' }}
