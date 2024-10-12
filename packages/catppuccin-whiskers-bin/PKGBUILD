@@ -1,7 +1,7 @@
 # Maintainer: Catppuccin <releases@catppuccin.com>
 
 pkgname=catppuccin-whiskers-bin
-pkgver=2.5.0 # renovate: datasource=github-tags depName=catppuccin/whiskers
+pkgver=2.5.1 # renovate: datasource=github-tags depName=catppuccin/whiskers
 pkgrel=1
 pkgdesc="Soothing port creation tool for the high-spirited!"
 url="https://github.com/catppuccin/whiskers"
