@@ -1,7 +1,7 @@
 # Maintainer: Catppuccin <releases@catppuccin.com>
 
 pkgname=catppuccin-cursors-mocha
-pkgver=1.0.1 # renovate: datasource=github-tags depName=catppuccin/cursors
+pkgver=1.0.2 # renovate: datasource=github-tags depName=catppuccin/cursors
 pkgrel=1
 pkgdesc='Soothing pastel mouse cursors - Mocha'
 arch=('any')
