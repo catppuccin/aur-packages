@@ -23,6 +23,11 @@ echo "::endgroup::"
 
 echo "::group::Updating checksums on PKGBUILD"
 updpkgsums
+
+if [[ "$INPUT_PKGNAME" == *cursors* ]]; then
+    sed -i '/^#\supdpkgsums:\s/asha256sums=("${_active_sha256sums[@]}")' PKGBUILD
+fi
+
 git diff PKGBUILD
 echo "::endgroup::"
 
