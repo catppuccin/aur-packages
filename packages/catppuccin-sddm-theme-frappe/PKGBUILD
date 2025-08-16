@@ -47,5 +47,5 @@ package() {
 	ls -la
 	echo "src dir"
 	ls -la "$srcdir"
-	cp -r -a --no-preserve=ownership "$pkgname-$pkgver-*" "$pkgdir/usr/share/sddm/themes"
+	cp -r -a -L --no-preserve=ownership "$pkgname-$pkgver-*" "$pkgdir/usr/share/sddm/themes"
 }
