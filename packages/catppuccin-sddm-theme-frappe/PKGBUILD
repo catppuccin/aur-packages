@@ -24,8 +24,8 @@ source=(
 	"$pkgname-$pkgver-teal.zip::$url/releases/download/v$pkgver/catppuccin-frappe-teal-sddm.zip"
 	"$pkgname-$pkgver-yellow.zip::$url/releases/download/v$pkgver/catppuccin-frappe-yellow-sddm.zip"
 )
-sha256sums=(
-	'e4e8d32b7e1b2f6f922e60103a3d43a4b22a2e5e21d2590c399dc49e373c27d9'
+
+sha256sums=('e4e8d32b7e1b2f6f922e60103a3d43a4b22a2e5e21d2590c399dc49e373c27d9'
 	'81e312e8a904f74718eb197734dfd13fccb8a170e4336bec525e7f89481c0117'
 	'60b1bfedea1888bf7ea74ed635c336aaeb4a371edb5e0e29475cae6ffc894ffd'
 	'b25b0b43f2c73ed9630f4e2a39f5ce7c4c23f8e5f88aa271276e09acfcfbddcd'
@@ -38,16 +38,9 @@ sha256sums=(
 	'ceddf27badac3f81759d0f771ab1e3d3c2dc24115292913bbdaef98743736a19'
 	'26563b82c0f9d5f0578be1968cd4b1948fc20e386b6591633fbefe33544baf43'
 	'5fc4966aa7fdbed22e8318abc36d9bc3a7f88f59aa207e2683efb6b5bf8c9743'
-	'bc12be05b9e752af44d20ce7528c94afb37136aa7bf66e48e1e254e83db85598'
-)
+	'bc12be05b9e752af44d20ce7528c94afb37136aa7bf66e48e1e254e83db85598')
 
 package() {
 	install -d "$pkgdir/usr/share/sddm/themes/"
-	echo "current dir"
-	ls -la
-	echo "test"
-	ls -la catppuccin-sddm-theme-frappe-1.1.1-*
-	echo "test 2"
-	ls -la catppuccin-frappe-*
-	cp -r -a -L --no-preserve=ownership "$pkgname-$pkgver-*" "$pkgdir/usr/share/sddm/themes"
+	cp -r -a -L --no-preserve=ownership catppuccin-frappe-* "$pkgdir/usr/share/sddm/themes"
 }
