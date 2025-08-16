@@ -1,7 +1,7 @@
 # Maintainer: Catppuccin <releases@catppuccin.com>
 
 pkgname=catppuccin-sddm-theme-mocha
-pkgver=1.0.0 # renovate: datasource=github-tags depName=catppuccin/sddm
+pkgver=1.1.1 # renovate: datasource=github-tags depName=catppuccin/sddm
 pkgrel=1
 pkgdesc='Soothing pastel theme for SDDM - Mocha'
 arch=('any')
@@ -9,12 +9,39 @@ license=('MIT')
 depends=('sddm' 'qt6-svg' 'qt6-declarative')
 url='https://github.com/catppuccin/sddm'
 source=(
-	"$pkgname-$pkgver.zip::$url/releases/download/v$pkgver/catppuccin-mocha.zip"
+	"$pkgname-$pkgver-blue.zip::$url/releases/download/v$pkgver/catppuccin-mocha-blue-sddm.zip"
+	"$pkgname-$pkgver-flamingo.zip::$url/releases/download/v$pkgver/catppuccin-mocha-flamingo-sddm.zip"
+	"$pkgname-$pkgver-green.zip::$url/releases/download/v$pkgver/catppuccin-mocha-green-sddm.zip"
+	"$pkgname-$pkgver-lavender.zip::$url/releases/download/v$pkgver/catppuccin-mocha-lavender-sddm.zip"
+	"$pkgname-$pkgver-maroon.zip::$url/releases/download/v$pkgver/catppuccin-mocha-maroon-sddm.zip"
+	"$pkgname-$pkgver-mauve.zip::$url/releases/download/v$pkgver/catppuccin-mocha-mauve-sddm.zip"
+	"$pkgname-$pkgver-peach.zip::$url/releases/download/v$pkgver/catppuccin-mocha-peach-sddm.zip"
+	"$pkgname-$pkgver-pink.zip::$url/releases/download/v$pkgver/catppuccin-mocha-pink-sddm.zip"
+	"$pkgname-$pkgver-red.zip::$url/releases/download/v$pkgver/catppuccin-mocha-red-sddm.zip"
+	"$pkgname-$pkgver-rosewater.zip::$url/releases/download/v$pkgver/catppuccin-mocha-rosewater-sddm.zip"
+	"$pkgname-$pkgver-sapphire.zip::$url/releases/download/v$pkgver/catppuccin-mocha-sapphire-sddm.zip"
+	"$pkgname-$pkgver-sky.zip::$url/releases/download/v$pkgver/catppuccin-mocha-sky-sddm.zip"
+	"$pkgname-$pkgver-teal.zip::$url/releases/download/v$pkgver/catppuccin-mocha-teal-sddm.zip"
+	"$pkgname-$pkgver-yellow.zip::$url/releases/download/v$pkgver/catppuccin-mocha-yellow-sddm.zip"
 )
-sha256sums=('1fb17a79685d97ea616e81c0b9f4fd01c70bdd08f4f5c11d33db7eb0b1d32999')
+sha256sums=(
+	'da718ebd3745202e3b226bb96917566f8710ba3e6c13321885938b182cb9106f'
+	'e9a2d56f99709b844329d362314d536c77300ae07e53f0ff87a9536b97184e5e'
+	'22a6b8ee54034d1861ba38eabfd646a8ca76c03869cb47b7ca6156fe9f959808'
+	'abc11e3f6fb2e42bc44729638e8120e1b0543d24e84a1b5672175038415133b4'
+	'1912745792c56aaa240eea73359ff134d099c8d3adcd8a91699037ec6575eed2'
+	'a15c96bcaffe42fbf0460bb07cef43a29ed33e4f2c8fb48462d6e0f2cd4d3391'
+	'0c981282b41acdc647f8c08adf8b94fce6ba1f92d71ffef143d88c7b9b8ecf7f'
+	'c3b86fd93998deceb1c0e0666df76ba43e4f08f746d1181dd4ec657d25d8ba68'
+	'c76a735b73eb7b49dc45cbdd8c319c9e51ec14cc7b5945cd68f99c4c61042fbc'
+	'a848453e59cfee15e7555921b4ab9f2b8922f994c2f55f5b12295662689e7ed1'
+	'fdab568490707d84962ec714e5f4bc071b4ac5d5816b71a53ed189be0ba985ed'
+	'bd9400b60abe9fced330d256324229878f1f0ae942a7a3419f1dfd23d6bbbce1'
+	'd44c18643912ac39e42871ee31c1c76003370e8f7add38fdce39b6ff1ebd4d17'
+	'9e8c47ddd843c0ccee5240507df7838ef7b23939c63f0f560713ca5c999623f5'
+)
 
 package() {
 	install -d "$pkgdir/usr/share/sddm/themes/"
-	cp -r -a --no-preserve=ownership \
-		catppuccin-mocha "$pkgdir/usr/share/sddm/themes"
+	cp -r -a --no-preserve=ownership catppuccin-mocha-* "$pkgdir/usr/share/sddm/themes"
 }

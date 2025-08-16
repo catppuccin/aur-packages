@@ -1,7 +1,7 @@
 # Maintainer: Catppuccin <releases@catppuccin.com>
 
 pkgname=catppuccin-sddm-theme-frappe
-pkgver=1.0.0 # renovate: datasource=github-tags depName=catppuccin/sddm
+pkgver=1.1.1 # renovate: datasource=github-tags depName=catppuccin/sddm
 pkgrel=1
 pkgdesc='Soothing pastel theme for SDDM - Frappe'
 arch=('any')
@@ -9,12 +9,39 @@ license=('MIT')
 depends=('sddm' 'qt6-svg' 'qt6-declarative')
 url='https://github.com/catppuccin/sddm'
 source=(
-	"$pkgname-$pkgver.zip::$url/releases/download/v$pkgver/catppuccin-frappe.zip"
+	"$pkgname-$pkgver-blue.zip::$url/releases/download/v$pkgver/catppuccin-frappe-blue-sddm.zip"
+	"$pkgname-$pkgver-flamingo.zip::$url/releases/download/v$pkgver/catppuccin-frappe-flamingo-sddm.zip"
+	"$pkgname-$pkgver-green.zip::$url/releases/download/v$pkgver/catppuccin-frappe-green-sddm.zip"
+	"$pkgname-$pkgver-lavender.zip::$url/releases/download/v$pkgver/catppuccin-frappe-lavender-sddm.zip"
+	"$pkgname-$pkgver-maroon.zip::$url/releases/download/v$pkgver/catppuccin-frappe-maroon-sddm.zip"
+	"$pkgname-$pkgver-mauve.zip::$url/releases/download/v$pkgver/catppuccin-frappe-mauve-sddm.zip"
+	"$pkgname-$pkgver-peach.zip::$url/releases/download/v$pkgver/catppuccin-frappe-peach-sddm.zip"
+	"$pkgname-$pkgver-pink.zip::$url/releases/download/v$pkgver/catppuccin-frappe-pink-sddm.zip"
+	"$pkgname-$pkgver-red.zip::$url/releases/download/v$pkgver/catppuccin-frappe-red-sddm.zip"
+	"$pkgname-$pkgver-rosewater.zip::$url/releases/download/v$pkgver/catppuccin-frappe-rosewater-sddm.zip"
+	"$pkgname-$pkgver-sapphire.zip::$url/releases/download/v$pkgver/catppuccin-frappe-sapphire-sddm.zip"
+	"$pkgname-$pkgver-sky.zip::$url/releases/download/v$pkgver/catppuccin-frappe-sky-sddm.zip"
+	"$pkgname-$pkgver-teal.zip::$url/releases/download/v$pkgver/catppuccin-frappe-teal-sddm.zip"
+	"$pkgname-$pkgver-yellow.zip::$url/releases/download/v$pkgver/catppuccin-frappe-yellow-sddm.zip"
 )
-sha256sums=('6b7eb5e549e9a2bb28f7c6f8f42997bd55aaac172158aa2dcd780c2bfa262774')
+sha256sums=(
+	'e4e8d32b7e1b2f6f922e60103a3d43a4b22a2e5e21d2590c399dc49e373c27d9'
+	'81e312e8a904f74718eb197734dfd13fccb8a170e4336bec525e7f89481c0117'
+	'60b1bfedea1888bf7ea74ed635c336aaeb4a371edb5e0e29475cae6ffc894ffd'
+	'b25b0b43f2c73ed9630f4e2a39f5ce7c4c23f8e5f88aa271276e09acfcfbddcd'
+	'd0af659168cf94cb0de3d5e356bd6437f08b4250282d65edd722bf09a55761e1'
+	'05921f8e2314c88b722502f244b5068c8f29297b6720e7805285195452b19989'
+	'14b7225e93ea87325e29c5a4add76694abce5046344dc4422691df55d681dc0c'
+	'16637c795fe47c9160008154cb87e98cc28c2eaf070409fae4f90840961b7036'
+	'cd237fcb401886b4732c1925ed803842036d0eb78e97f1fc53b22124e5f68fb5'
+	'eadfe0a16fdd5f89834de2bfc39d562b77a9c4131d8349dedbb3bbfe5ea206c9'
+	'ceddf27badac3f81759d0f771ab1e3d3c2dc24115292913bbdaef98743736a19'
+	'26563b82c0f9d5f0578be1968cd4b1948fc20e386b6591633fbefe33544baf43'
+	'5fc4966aa7fdbed22e8318abc36d9bc3a7f88f59aa207e2683efb6b5bf8c9743'
+	'bc12be05b9e752af44d20ce7528c94afb37136aa7bf66e48e1e254e83db85598'
+)
 
 package() {
 	install -d "$pkgdir/usr/share/sddm/themes/"
-	cp -r -a --no-preserve=ownership \
-		catppuccin-frappe "$pkgdir/usr/share/sddm/themes"
+	cp -r -a --no-preserve=ownership catppuccin-frappe-* "$pkgdir/usr/share/sddm/themes"
 }

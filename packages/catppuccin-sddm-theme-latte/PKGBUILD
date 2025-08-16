@@ -1,7 +1,7 @@
 # Maintainer: Catppuccin <releases@catppuccin.com>
 
 pkgname=catppuccin-sddm-theme-latte
-pkgver=1.0.0 # renovate: datasource=github-tags depName=catppuccin/sddm
+pkgver=1.1.1 # renovate: datasource=github-tags depName=catppuccin/sddm
 pkgrel=1
 pkgdesc='Soothing pastel theme for SDDM - Latte'
 arch=('any')
@@ -9,12 +9,39 @@ license=('MIT')
 depends=('sddm' 'qt6-svg' 'qt6-declarative')
 url='https://github.com/catppuccin/sddm'
 source=(
-	"$pkgname-$pkgver.zip::$url/releases/download/v$pkgver/catppuccin-latte.zip"
+	"$pkgname-$pkgver-blue.zip::$url/releases/download/v$pkgver/catppuccin-latte-blue-sddm.zip"
+	"$pkgname-$pkgver-flamingo.zip::$url/releases/download/v$pkgver/catppuccin-latte-flamingo-sddm.zip"
+	"$pkgname-$pkgver-green.zip::$url/releases/download/v$pkgver/catppuccin-latte-green-sddm.zip"
+	"$pkgname-$pkgver-lavender.zip::$url/releases/download/v$pkgver/catppuccin-latte-lavender-sddm.zip"
+	"$pkgname-$pkgver-maroon.zip::$url/releases/download/v$pkgver/catppuccin-latte-maroon-sddm.zip"
+	"$pkgname-$pkgver-mauve.zip::$url/releases/download/v$pkgver/catppuccin-latte-mauve-sddm.zip"
+	"$pkgname-$pkgver-peach.zip::$url/releases/download/v$pkgver/catppuccin-latte-peach-sddm.zip"
+	"$pkgname-$pkgver-pink.zip::$url/releases/download/v$pkgver/catppuccin-latte-pink-sddm.zip"
+	"$pkgname-$pkgver-red.zip::$url/releases/download/v$pkgver/catppuccin-latte-red-sddm.zip"
+	"$pkgname-$pkgver-rosewater.zip::$url/releases/download/v$pkgver/catppuccin-latte-rosewater-sddm.zip"
+	"$pkgname-$pkgver-sapphire.zip::$url/releases/download/v$pkgver/catppuccin-latte-sapphire-sddm.zip"
+	"$pkgname-$pkgver-sky.zip::$url/releases/download/v$pkgver/catppuccin-latte-sky-sddm.zip"
+	"$pkgname-$pkgver-teal.zip::$url/releases/download/v$pkgver/catppuccin-latte-teal-sddm.zip"
+	"$pkgname-$pkgver-yellow.zip::$url/releases/download/v$pkgver/catppuccin-latte-yellow-sddm.zip"
 )
-sha256sums=('19cc14098c9cc709334b6f65598520834f373bd24702301411c6ac1a6ecc4c32')
+sha256sums=(
+	'8cbd8d8eaf9bacddac42a625a278ea9dae241b8431ee211a07d0a4f40662b999'
+	'b0dc21b83f9065962db5636b844938683b36933338fa72f49a43dfe6a3d209c3'
+	'e98bf7c358a93cb63d857d6bf019ea8a6ed48b44ccff23443f3721ba94c3a4dd'
+	'1d079326fd290411c75a773277ed67984ebf65ee6f860c340d769706c8c1a8a9'
+	'4dcbedea836ac758c5f783bbb79bc203862673e12bc2cf4b346c892184aceb53'
+	'e109495b1a2c650738c6a05a74a0e07d5cc5401bba36bd1e8444fa0f622410b9'
+	'01881f54522320908094ed94d1172d366c8f2b7ee9c3de843721db9413db6781'
+	'9d8ca1023568798ce34d53369b62e7845f4089d21a9274f254e2452fa70b5619'
+	'd7f6b54f12f50b17bce3c77f76bed9be67b8171dbd89b5c7e47f46f993d90d84'
+	'2865ffdf9c61cefb444d6b73c5e91e22142613bdb1f1377cb410958c4d03c0c4'
+	'a72fa37b5989bc3fe66101b1598a09d0610bb8f37d8727cf6823218e810a28d1'
+	'ad693d3e64ff5c862b4c06b82cb630967b8d42893486620b56ecef6e196d34e9'
+	'46b607b06ef11b61e48aba5828bf120fb6ae39e3fe07b4a259a1fa530ad6de35'
+	'b7dbd9e143d112b930168d4abccfd7f6ce99ff6afeb493ae9dd8c2fa1b06fdf1'
+)
 
 package() {
 	install -d "$pkgdir/usr/share/sddm/themes/"
-	cp -r -a --no-preserve=ownership \
-		catppuccin-latte "$pkgdir/usr/share/sddm/themes"
+	cp -r -a --no-preserve=ownership catppuccin-latte-* "$pkgdir/usr/share/sddm/themes"
 }
