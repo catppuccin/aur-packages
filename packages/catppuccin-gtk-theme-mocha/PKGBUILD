@@ -40,6 +40,7 @@ sha256sums=('83811051cceb32623fafde411350188046370d73ee7464bb26285cd63c753bdc'
 
 package() {
 	install -d "$pkgdir/usr/share/themes/"
+ 	ls -la
 	cp -r -a --no-preserve=ownership \
 		catppuccin-mocha-* "$pkgdir/usr/share/themes"
 }
