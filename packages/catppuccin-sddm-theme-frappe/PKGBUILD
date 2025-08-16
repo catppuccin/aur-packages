@@ -45,7 +45,9 @@ package() {
 	install -d "$pkgdir/usr/share/sddm/themes/"
 	echo "current dir"
 	ls -la
-	echo "src dir"
-	ls -la "$srcdir"
+	echo "test"
+	ls -la catppuccin-sddm-theme-frappe-1.1.1-*
+	echo "test 2"
+	ls -la catppuccin-frappe-*
 	cp -r -a -L --no-preserve=ownership "$pkgname-$pkgver-*" "$pkgdir/usr/share/sddm/themes"
 }
