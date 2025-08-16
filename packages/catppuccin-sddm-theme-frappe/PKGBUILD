@@ -43,5 +43,9 @@ sha256sums=(
 
 package() {
 	install -d "$pkgdir/usr/share/sddm/themes/"
+	echo "current dir"
+	ls -la
 	cp -r -a --no-preserve=ownership "$pkgname-$pkgver-*" "$pkgdir/usr/share/sddm/themes"
+	echo "theme dir"
+	ls -la "$pkgdir/usr/share/sddm/themes"
 }
