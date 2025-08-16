@@ -43,5 +43,6 @@ sha256sums=(
 
 package() {
 	install -d "$pkgdir/usr/share/sddm/themes/"
+	cd .. && ls -la
 	cp -r -a --no-preserve=ownership catppuccin-frappe-* "$pkgdir/usr/share/sddm/themes"
 }
