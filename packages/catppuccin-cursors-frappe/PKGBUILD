@@ -5,7 +5,7 @@ pkgver=2.0.0 # renovate: datasource=github-tags depName=catppuccin/cursors
 pkgrel=1
 pkgdesc='Soothing pastel mouse cursors - Frappe'
 arch=('any')
-license=('GPL2')
+license=('MIT')
 url='https://github.com/catppuccin/cursors'
 source=(
 	"$pkgname-$pkgver-blue.zip::$url/releases/download/v$pkgver/catppuccin-frappe-blue-cursors.zip"
