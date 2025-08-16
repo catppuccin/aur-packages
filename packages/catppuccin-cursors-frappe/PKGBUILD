@@ -45,5 +45,6 @@ sha256sums=('6133983b33e07b3dc50b3a833a2a2f9fb45af4fb16b39ad13c8b78381f7c9e9c'
 
 package() {
 	install -d "$pkgdir/usr/share/icons/"
+ 	ls -la
 	cp -r -a --no-preserve=ownership catppuccin-frappe-* "$pkgdir/usr/share/icons"
 }
