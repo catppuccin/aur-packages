@@ -1,31 +1,15 @@
 # Maintainer: Catppuccin <releases@catppuccin.com>
 
-pkgname=catppuccin-cursors-latte
+_flavor=latte
+pkgname=catppuccin-cursors-$_flavor
 pkgver=2.0.0 # renovate: datasource=github-tags depName=catppuccin/cursors
-pkgrel=1
-pkgdesc='Soothing pastel mouse cursors - Latte'
+pkgrel=2
+pkgdesc="Soothing pastel mouse cursors - ${_flavor^}"
 arch=('any')
 license=('GPL2')
 url='https://github.com/catppuccin/cursors'
-source=(
-	"$pkgname-$pkgver-blue.zip::$url/releases/download/v$pkgver/catppuccin-latte-blue-cursors.zip"
-	"$pkgname-$pkgver-dark.zip::$url/releases/download/v$pkgver/catppuccin-latte-dark-cursors.zip"
-	"$pkgname-$pkgver-flamingo.zip::$url/releases/download/v$pkgver/catppuccin-latte-flamingo-cursors.zip"
-	"$pkgname-$pkgver-green.zip::$url/releases/download/v$pkgver/catppuccin-latte-green-cursors.zip"
-	"$pkgname-$pkgver-lavender.zip::$url/releases/download/v$pkgver/catppuccin-latte-lavender-cursors.zip"
-	"$pkgname-$pkgver-light.zip::$url/releases/download/v$pkgver/catppuccin-latte-light-cursors.zip"
-	"$pkgname-$pkgver-maroon.zip::$url/releases/download/v$pkgver/catppuccin-latte-maroon-cursors.zip"
-	"$pkgname-$pkgver-mauve.zip::$url/releases/download/v$pkgver/catppuccin-latte-mauve-cursors.zip"
-	"$pkgname-$pkgver-peach.zip::$url/releases/download/v$pkgver/catppuccin-latte-peach-cursors.zip"
-	"$pkgname-$pkgver-pink.zip::$url/releases/download/v$pkgver/catppuccin-latte-pink-cursors.zip"
-	"$pkgname-$pkgver-red.zip::$url/releases/download/v$pkgver/catppuccin-latte-red-cursors.zip"
-	"$pkgname-$pkgver-rosewater.zip::$url/releases/download/v$pkgver/catppuccin-latte-rosewater-cursors.zip"
-	"$pkgname-$pkgver-sapphire.zip::$url/releases/download/v$pkgver/catppuccin-latte-sapphire-cursors.zip"
-	"$pkgname-$pkgver-sky.zip::$url/releases/download/v$pkgver/catppuccin-latte-sky-cursors.zip"
-	"$pkgname-$pkgver-teal.zip::$url/releases/download/v$pkgver/catppuccin-latte-teal-cursors.zip"
-	"$pkgname-$pkgver-yellow.zip::$url/releases/download/v$pkgver/catppuccin-latte-yellow-cursors.zip"
-)
 
+source=()
 sha256sums=('9216822b1570c99b6ad3fd40b3912cbd5681e7cd671c7c6b0f2810d55f9a17a6'
             '0b39cfc2d367cdde6b876a1afb649da8cc56c1d8ddd7b50abbe9ef53dc5f9699'
             '104073b7629217e7b94a9bc8515a6cc502a0fb5dc7c30d01c67f5bee4e906b50'
@@ -43,7 +27,35 @@ sha256sums=('9216822b1570c99b6ad3fd40b3912cbd5681e7cd671c7c6b0f2810d55f9a17a6'
             'd491a44af4ffffd907945028df90328f9c1a6cb70578f336141e87fb58ffd52a'
             'e8fa51fb0256b6a19ac1a590240453b29df99d4f9f399693216856b0458c5342')
 
+_colors_all=(blue dark flamingo green lavender light maroon mauve peach pink red rosewater sapphire sky teal yellow)
+
+declare -A _color_index
+for i in "${!_colors_all[@]}"; do
+    _color_index["${_colors_all[$i]}"]=${sha256sums[$i]}
+done
+
+# User can define env CTP_CURSOR_COLOR="mauve dark light" etc
+_colors=(${CTP_CURSOR_COLOR:-${_colors_all[@]}})
+
+_active_sha256sums=()
+
+for color in "${_colors[@]}"; do
+	if [[ -z ${_color_index[$color]} ]]; then
+		echo "Unknown color: '$color', exiting..." >&2
+		exit 1
+	fi
+    source+=("$pkgname-$pkgver-$color.zip::$url/releases/download/v$pkgver/catppuccin-$_flavor-$color-cursors.zip")
+    _active_sha256sums+=("${_color_index[$color]}")
+done
+
+# updpkgsums: wipes this out, ensure to restore it after running
+sha256sums=("${_active_sha256sums[@]}")
+
 package() {
+	if [[ -z "$CTP_CURSOR_COLOR" ]]; then
+		echo "Installing all cursor colors as CTP_CURSOR_COLOR isn't set..."
+	fi
+
 	install -d "$pkgdir/usr/share/icons/"
-	cp -r -a --no-preserve=ownership catppuccin-latte-* "$pkgdir/usr/share/icons"
+	cp -r -a --no-preserve=ownership catppuccin-$_flavor-* "$pkgdir/usr/share/icons"
 }
