@@ -18,6 +18,7 @@ cp -fv "$WORKPATH"/* .
 echo "::endgroup::"
 
 echo "::group::Updating archlinux-keyring"
+sudo pacman-key --init
 sudo pacman -S --noconfirm archlinux-keyring
 echo "::endgroup::"
 
